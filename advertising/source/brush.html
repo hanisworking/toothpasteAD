@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.onload=function(){
+            var myPage=document.getElementById("brushing");
+            var teeth=document.getElementById("brushingTheeth");
+            var teethList = teeth.querySelectorAll("img");
+            var teethcount=0;
+            var popcount=0;
+            var smallpopcount=0;
+            var a=parseFloat(teeth.style.left);
+            var mypro;
+            
+
+            document.getElementById("bruContent").style.height=document.getElementById("bruBorder").offsetHeight-10+"px";
+            console.log(document.getElementById("bruBorder").offsetHeight);
+            //进度条函数
+            function process(){
+                var i;
+                
+                if(parseFloat(teeth.style.left)<=40){
+                    teeth.style.left=parseFloat(teeth.style.left)+0.2+"%";
+                    document.getElementById("bruContent").style.width=parseFloat(document.getElementById("bruContent").style.width)+0.2+"%";
+                    if(teethcount==0){
+                        teethList[1].style.display="block";
+                        teethList[0].style.display="none";
+                        teethcount=1;
+                    }else{
+                        teethList[0].style.display="block";
+                        teethList[1].style.display="none";
+                        teethcount=0;
+                    }
+                }else if(parseFloat(teeth.style.left)<86){
+                    document.getElementById("bruContent").style.width=parseFloat(document.getElementById("bruContent").style.width)+0.2+"%";
+                    teeth.style.left=parseFloat(teeth.style.left)+0.2+"%";
+                    teethList[0].style.display="none";
+                    teethList[1].style.display="none";
+                    teethList[3].style.display="block";
+                }else if(parseFloat(teeth.style.left)==86){
+                    teethList[0].style.display="none";
+                    teethList[1].style.display="none";
+                    teethList[2].style.display="none";
+                    teethList[3].style.display="none";
+                    teethList[4].style.display="block";
+                    clearTimeout(mypro);
+                }
+                console.log("设置时间在执行");
+            }
+            //牙渍透明度函数
+            var dirtyt= document.getElementById("bruDirthTeeth")
+            function dirty(){
+                if(parseFloat(teeth.style.left)<=20){
+                    dirtyt.style.opacity=1;
+                }else if(parseFloat(teeth.style.left)<=40){
+                    dirtyt.style.opacity=0.8;
+                }else if(parseFloat(teeth.style.left)<=60){
+                    dirtyt.style.opacity=0.6;
+                }else if(parseFloat(teeth.style.left)<=70){
+                    dirtyt.style.opacity=0.4;
+                }else if(parseFloat(teeth.style.left)<=80){
+                    dirtyt.style.opacity=0.2;
+                }else if(parseFloat(teeth.style.left)<=86){
+                    dirtyt.style.opacity=0;
+                }
+            }
+            //泡泡变化动画
+            var mypop=document.getElementById("bruPop");
+            var popList = mypop.querySelectorAll("img");
+            function pop(){
+                if(popcount==0){
+                    popList[0].style.display="block";
+                    popList[1].style.display="none";
+                    popList[2].style.display="none";
+                    setTimeout(function(){
+                        popcount=1;
+                    },200);
+                }else if(popcount==1){
+                    popList[0].style.display="none";
+                    popList[1].style.display="block";
+                    popList[2].style.display="none";
+                    setTimeout(function(){popcount=2;},200);
+                }else if(popcount==2){
+                    popList[0].style.display="none";
+                    popList[1].style.display="none";
+                    popList[2].style.display="block";
+                    setTimeout(function(){popcount=0;},200);
+                }
+            }
+            
+            var brushing = document.getElementById("bruBrush");
+            var inmouth=document.getElementById("bruMouth");
+            var brushstr='';
+            brushstr+='<img src="../img/brush2'+localStorage.test+'.gif" alt="">'
+            brushing.innerHTML+=brushstr;
+            var event;
+            var smpop=document.getElementById("smPop");
+            var popstr='';
+            popstr='<img src="../img/spop'+localStorage.test+'.gif" alt="" width="100%" >'
+            smpop.innerHTML+=popstr;
+            var brushList = brushing.querySelectorAll("img");
+            brushing.addEventListener("touchstart", function() {
+                brushing.addEventListener("touchmove", function(e) {
+                    brushing.style.left=e.changedTouches[0].clientX+'px';
+                    brushing.style.top=e.changedTouches[0].clientY+'px';
+                    if(inmouth.offsetTop+inmouth.parentElement.offsetTop-50<brushing.offsetTop&&inmouth.offsetTop+inmouth.parentElement.offsetTop+inmouth.height+50>brushing.offsetTop+84){
+                        brushList[1].style.display="none";
+                        brushList[0].style.display="block";
+                        //泡泡跟随运动
+                        mypop.style.display="block";
+                        mypop.style.left=e.changedTouches[0].clientX+'px';
+                        mypop.style.top=e.changedTouches[0].clientY-30+'px';
+
+                        smpop.style.height="100%";
+                        smpop.style.width="120%";
+                        //进度条动画
+                        mypro=setTimeout(function(){ 
+                            process(); dirty(); 
+                        },30);
+                        var mypopmove=setTimeout(function(){ pop() },100);
+                    }else{
+                        brushList[0].style.display="none";
+                        brushList[1].style.display="block";
+                        mypop.style.display="none";
+                        smpop.style.height="0px";
+                        smpop.style.width="0px";
+                        clearTimeout(mypro);
+                        clearTimeout(mypopmove);
+                    }
+                })
+            })
+        }
+    </script>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: content-box;
+        }
+        body,html{
+            height: 100%;
+            overflow: hidden;
+        }
+        #brushing{
+            width: 100%;
+            height: 100%;
+            background-color: #f7d2d2;
+            padding-top: 7%; 
+            position: relative;
+        }
+        #brushing>.progress{
+            width: 76%;
+            margin:0px auto;
+            overflow: hidden;
+            height: 8%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #brushing>.progress>.content,
+        #brushing>.progress>.border,
+        #brushing>.progress>.shadow,
+        #brushing>.progress>#brushingTheeth{
+            position: absolute;
+        }
+        #brushing>.progress>.border{
+            z-index: 10;
+        }
+        #brushing>.progress>.content{
+            z-index: 11;
+            height: auto;
+            background-image: url("../img/procontent.gif");
+            width: 0%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size:auto 100%;
+            left: 6px;
+            
+        }
+        #brushing>.progress>#brushingTheeth{
+            z-index: 11;
+            height: 70%;
+        }
+        #brushing>.progress>#brushingTheeth>img{
+            height: 100%;
+        }
+        #brushing>.mouth{
+            width: 100%;
+            height: 55%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        #brushing>.mouth img{
+            width: 90%;
+            position: absolute;
+        }
+        #brushing>.mouth>.smpop{
+            width: 90%;
+            position: absolute;
+            top: -60px;
+        }
+        #brushing>.brush{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            z-index: 100;
+        }
+        #brushing>.brush>img,
+        #brushing>.pop>img{
+            width: 85%;
+        }
+        #brushing>.smallpop>img{
+            width: 25px;
+            height: 25px;
+
+            /* position: absolute;
+            z-index: 101; */
+        }
+        #brushing .smpop>img{
+            width: 120%;
+        }
+    </style>
+</head>
+<body>
+    <div id="brushing" >
+        <div class="progress">
+            <div class="border" style="width: 100%;" >
+                <img src="../img/proborder.gif" alt="" style="width: 100%;height: auto;" id="bruBorder">
+            </div>
+            <div class="content" style="display: normal;width: 0%;"  id="bruContent">
+                
+            </div>
+            <div class="shadow" ></div>
+            <div id="brushingTheeth" style="left: 2%;">
+                <img id="bruth1" src="../img/teeth11.gif" alt="" style="display: normal;">
+                <img id="bruth2" src="../img/teeth12.gif" alt="" style="display: none;">
+                <img id="bruth3" src="../img/teeth21.png" alt="" style="display: none;">
+                <img id="bruth4" src="../img/teeth22.gif" alt="" style="display: none;">
+                <img id="bruth5" src="../img/teeth31.gif" alt="" style="display: none;">
+                <img id="bruth6" src="../img/teeth32.gif" alt="" style="display: none;">
+            </div>
+        </div>
+        <div class="nose" style="width: 100%;display: flex;justify-content: center">
+            <img src="../img/nose.gif" alt="" style="width: 40%;">
+        </div>
+        <div class="mouth" >
+            <img src="../img/mouth.gif" alt="" id="bruMouth">
+            <img src="../img/mouth2.gif" alt="" style="opacity:1;" id="bruDirthTeeth">
+            <div class="smpop" id="smPop" style="height: 0px;width: 0px;z-index: 99;">
+                
+            </div>
+        </div>
+        <div class="nose" style="width: 100%;display: flex;justify-content: center">
+            <img src="../img/jaw.gif" alt="" style="width: 30%;margin-top: 30px;">
+        </div>
+        <div class="brush" id="bruBrush"  >
+            <img src="../img/brush1.gif" alt="" style="display: none;">
+        </div>
+        <div class="pop"
+        id="bruPop"
+        style=" display:none;position: absolute; width: 190px;z-index: 98;">
+            <img src="../img/pop1.gif" alt="" style="display: block;">
+            <img src="../img/pop2.gif" alt="" style="display: none;">
+            <img src="../img/pop3.gif" alt="" style="display: none;">             
+        </div>
+        
+    </div>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/nomalize.css">
+    <style>
+        body {
+            width: 100%;
+            min-width: 320px;
+            max-width: 640px;
+            margin: 0 auto;
+            /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
+            font-size: 14px;
+            /* color: #666; */
+            /* line-height: 1.5; */
+            background-image: url(../img/bg.png);
+            background-size:cover;
+            background-repeat:no-repeat;
+            /* height: 2500px; */
+        }
+        .choose{
+            width: 100%;
+            position: absolute;
+            top: 20%;
+            left: 0;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+        }
+        .choose div{
+            width: 50%;
+            
+        }
+        .choose1 .ch1{
+            width: 96%;
+            position: relative;
+            left: 8%;
+            margin: 0 auto;
+            top: 22%;
+        }
+        .choose2 .ch2{
+            width: 94%;
+            position: relative;
+            top: 21%;
+            left: 3%;
+            margin: 0 auto;
+        }
+        .choose3 .ch3{
+            width: 94%;
+            position: relative;
+            top: 21%;
+            left: -4%;
+            margin: 0 auto;
+        }
+        .choose4 .ch4{
+            width: 94%;
+            position: relative;
+            top: 21%;
+            left: -10%;
+            margin: 0 auto;
+        }
+        .choose1 .choice1{
+            width: 56%;
+            position: relative;
+            margin: 0 auto;
+            left: 30%;
+            top:6%;
+
+        }
+        .choose2 .choice2{
+            width: 56%;
+            position: relative;
+            margin: 0 auto;
+            left: 22%;
+            top: 4%;
+
+        }
+        .choose3 .choice3{
+            width: 56%;
+            position: relative;
+            margin: 0 auto;
+            left: 15%;
+            top: 4%;
+
+        }
+        .choose4 .choice4{
+            width: 56%;
+            position: relative;
+            margin: 0 auto;
+            left: 8%;
+            top: 4%;
+
+        }
+        .hand{
+            width: 40%;
+            position: absolute;
+            float: right;
+            right:0px;
+            top: 53%;
+            transition: all 2s;
+            /* transform-origin: 0 0; */
+
+        }
+
+        .active1{
+            
+            transform:translate(-162%,-70%) scale(0.25) ;
+        }
+        .active2{
+            transform:translate(-104%,-70%) scale(0.25) ;
+        }
+
+        .active3{
+            transform:translate(-45%,-70%) scale(0.25) ; 
+        }
+
+        .active4{
+            transform:translate(14%,-70%) scale(0.25) ; 
+        }
+
+    </style>
+    <script>
+         window.onload=function(){
+            var choose1=document.getElementById("choose1");
+            var choose2=document.getElementById("choose2");
+            var choose3=document.getElementById("choose3");
+            var choose4=document.getElementById("choose4");
+
+            var choice1=document.getElementById("choice1");
+            var choice2=document.getElementById("choice2");
+            var choice3=document.getElementById("choice3");
+            var choice4=document.getElementById("choice4");
+
+            var hand=document.getElementById("hand");
+            var mychooice=0;
+            
+            choose1.addEventListener('click',function(){
+                hand.classList.remove('active2');
+                hand.classList.remove('active3');
+                hand.classList.remove('active4');
+                hand.classList.add('active1');
+                localStorage.test=1;
+                setTimeout(function(){
+                    window.location.href="brush.html";
+                },2000);
+            })
+            choose2.addEventListener('click',function(){
+                hand.classList.remove('active1');
+                hand.classList.remove('active3');
+                hand.classList.remove('active4');
+                hand.classList.add('active2');
+                localStorage.test=2;
+                setTimeout(function(){
+                    window.location.href="brush.html";
+                },2000);
+            })
+            choose3.addEventListener('click',function(){
+                hand.classList.remove('active1');
+                hand.classList.remove('active2');
+                hand.classList.remove('active4');
+                hand.classList.add('active3');
+                localStorage.test=3;
+                setTimeout(function(){
+                    window.location.href="brush.html";
+                },2000);
+            })
+            choose4.addEventListener('click',function(){
+                hand.classList.remove('active1');
+                hand.classList.remove('active2');
+                hand.classList.remove('active3');
+                hand.classList.add('active4');
+                localStorage.test=4;
+                setTimeout(function(){
+                    window.location.href="brush.html";
+                },2000);
+            })
+            console.log(localStorage.test);
+            choose1.addEventListener("click", function () {
+                choice1.hidden = false;
+                choice2.hidden = true;
+                choice3.hidden = true;
+                choice4.hidden = true;
+
+            });
+            choose2.addEventListener("click", function () {
+                choice1.hidden = true;
+                choice2.hidden = false;
+                choice3.hidden = true;
+                choice4.hidden = true;
+
+            });
+            choose3.addEventListener("click", function () {
+                choice2.hidden = true;
+                choice1.hidden = true;
+                choice4.hidden = true;
+                choice3.hidden = false;
+
+            });
+            choose4.addEventListener("click", function () {
+                choice2.hidden = true;
+                choice3.hidden = true;
+                choice1.hidden = true;
+                choice4.hidden = false;
+
+            });
+            };
+    </script>
+</head>
+<body>
+    <div class="choose">
+        <div id="choose1" class="choose1">
+            <img class="ch1" src="../img/ch1.png" alt="">
+            <img id="choice1" class="choice1" src="../img/1.gif" alt="">
+        </div>
+        <div id="choose2" class="choose2">
+            <img class="ch2" src="../img/ch2.png" alt="">
+            <img id="choice2" class="choice2" src="../img/1.gif" alt="">
+        </div>
+        <div id="choose3" class="choose3">
+            <img class="ch3" src="../img/ch3.png" alt="">
+            <img id="choice3" class="choice3" src="../img/1.gif" alt="">
+        </div>
+        <div id="choose4" class="choose4">
+            <img class="ch4" src="../img/ch4.png" alt="">
+            <img id="choice4" class="choice4" src="../img/1.gif" alt="">
+        </div>
+    </div>
+    <div >
+        <img id="hand" class="hand" src="../img/hand.png" alt="">
+    </div>
+</body>
+</html>
